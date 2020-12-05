@@ -1,5 +1,9 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  resources :projects, only: [:index]
+  defaults format: :json do
+    root "projects#index"
+
+    get "projects", to: "projects#index"
+  end
 end

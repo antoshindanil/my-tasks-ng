@@ -9,20 +9,19 @@ RSpec.describe TodosController, type: :controller do
 
     context "with valid attributes" do
       it "changes todo attributes" do
-        patch :update, params: { todo: { id: todo.id, text: todo.text, is_completed: !todo.is_completed },
-                                 project: { id: project.id },
-                                 todos_id: todo.id,
-                                 id: project.id }
-        json = JSON.parse(response.body)
-        expect(json["is_completed"]).to eq(!todo.is_completed)
+        patch :update, format: :json, params: { todo: { id: todo.id, text: todo.text, is_completed: !todo.is_completed },
+                                                project: { id: project.id },
+                                                todos_id: todo.id,
+                                                id: project.id }
+        expect(Todo.find_by(id: todo.id).is_completed).to eq(!todo.is_completed)
       end
 
-      it "return 200 status code" do
-        patch :update, params: { todo: { id: todo.id, text: todo.text, is_completed: !todo.is_completed },
-                                 project: { id: project.id },
-                                 todos_id: todo.id,
-                                 id: project.id }
-        expect(response.status).to eq 200
+      it "render template status code" do
+        patch :update, format: :json, params: { todo: { id: todo.id, text: todo.text, is_completed: !todo.is_completed },
+                                                project: { id: project.id },
+                                                todos_id: todo.id,
+                                                id: project.id }
+        expect(response.status).to render_template :update
       end
     end
 

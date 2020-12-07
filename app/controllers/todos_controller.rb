@@ -4,7 +4,11 @@ class TodosController < ApplicationController
   def update
     todo = Todo.find(todo_params[:id])
 
-    todo.update(todo_params) ? render(json: todo, status: :ok) : render_error(todo)
+    if todo.update(todo_params)
+      @todo = todo
+    else
+      render_error(todo)
+    end
   end
 
   def create

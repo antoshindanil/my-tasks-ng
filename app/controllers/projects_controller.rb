@@ -2,6 +2,6 @@
 
 class ProjectsController < ApplicationController
   def index
-    @projects = Project.all
+    @projects = Project.includes(:todos).order("todos.id ASC")
   end
 end

@@ -51,14 +51,14 @@ RSpec.describe TodosController, type: :controller do
     context "with existed project" do
       it "saves new todo in the database" do
         expect {
-          post :create,
-               params: { todo: { text: "New text", is_completed: false }, project: { id: project.id } }
+          post :create, format: :json,
+                        params: { todo: { text: "New text", is_completed: false }, project: { id: project.id } }
         }.to change(Todo, :count).by(1)
       end
 
       it "return 200 status code" do
-        post :create,
-             params: { todo: { text: "New text", is_completed: false }, project: { id: project.id } }
+        post :create, format: :json,
+                      params: { todo: { text: "New text", is_completed: false }, project: { id: project.id } }
         expect(response.status).to eq 200
       end
     end
@@ -66,21 +66,21 @@ RSpec.describe TodosController, type: :controller do
     context "with not existed project" do
       it "saves new project in the database" do
         expect {
-          post :create,
-               params: { todo: { text: "New text", is_completed: false }, project: { title: "New title" } }
+          post :create, format: :json,
+                        params: { todo: { text: "New text", is_completed: false }, project: { title: "New title" } }
         }.to change(Project, :count).by(1)
       end
 
       it "saves new todo in the database" do
         expect {
-          post :create,
-               params: { todo: { text: "New text", is_completed: false }, project: { title: "New title" } }
+          post :create, format: :json,
+                        params: { todo: { text: "New text", is_completed: false }, project: { title: "New title" } }
         }.to change(Todo, :count).by(1)
       end
 
       it "return 200 status code" do
-        post :create,
-             params: { todo: { text: "New text", is_completed: false }, project: { title: "New title" } }
+        post :create, format: :json,
+                      params: { todo: { text: "New text", is_completed: false }, project: { title: "New title" } }
         expect(response.status).to eq 200
       end
     end
@@ -88,14 +88,14 @@ RSpec.describe TodosController, type: :controller do
     context "with invalid attributes" do
       it "does not save the project" do
         expect {
-          post :create,
-               params: { todo: { text: "New text", is_completed: false }, project: { title: "" } }
+          post :create, format: :json,
+                        params: { todo: { text: "New text", is_completed: false }, project: { title: "" } }
         }.not_to change(Project, :count)
       end
 
       it "return error status" do
-        post :create,
-             params: { todo: { text: "New text", is_completed: false }, project: { title: "" } }
+        post :create, format: :json,
+                      params: { todo: { text: "New text", is_completed: false }, project: { title: "" } }
         expect(response.status).to eq 400
       end
     end

@@ -9,7 +9,7 @@ RSpec.describe ProjectsController, type: :controller do
     end
 
     it "render an array of projects" do
-      expect(assigns(:projects)).to eq(Project.all)
+      expect((assigns(:projects))).to eq(Project.includes(:todos).order("todos.id ASC"))
     end
 
     it "render index view" do

@@ -37,7 +37,8 @@ class TodosController < ApplicationController
     todo = project.todos.new(todo_params)
 
     if todo.save
-      render json: { status: :ok }, status: :ok
+      @projects = Project.includes(:todos).order("todos.id ASC")
+      render "projects/index", projects: @projects, status: :ok
     else
       render json: { errors: todo.errors }, status: :bad_request
     end
